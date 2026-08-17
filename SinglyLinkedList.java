@@ -66,8 +66,15 @@ public class SinglyLinkedList<E> {
     }
 
     // Write your codes below
-    public String toString(){
-     
+    public String toString() {
+        String sllStr = "";
+        if (isEmpty()) {
+            return sllStr;
+        }
+        for (Node<E> current = head; current != null; current = current.getNext()) {
+            sllStr += current.getElement();
+        }
+        return sllStr;
     }
 
     public E removeLast(){
