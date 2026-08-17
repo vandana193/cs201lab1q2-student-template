@@ -98,7 +98,18 @@ public class SinglyLinkedList<E> {
         return current.getElement();
     }
 
-    public void reverse(){       
-		return;
+    public void reverse() {
+        Node<E> previous = null; 
+        Node<E> current = head; 
+        Node<E> next = null; 
+        
+        tail = head; 
+        while (current != null) {
+			next = current.getNext(); 
+			current.setNext(previous); 
+			previous = current; 
+			current = next; 
+        }
+        head = previous; 
     }
 }
