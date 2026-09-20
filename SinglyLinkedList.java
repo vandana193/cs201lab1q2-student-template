@@ -1,47 +1,67 @@
 public class SinglyLinkedList<E> {
-    
+
+    private static class Node<E> {
+        private E element;
+        private Node<E> next;
+
+        public Node(E e, Node<E> n) {
+            element = e;
+            next = n;
+        }
+
+        public E getElement() {
+            return element;
+        }
+
+        public Node<E> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<E> n) {
+            next = n;
+        }
+    }
+
     private Node<E> head = null;
     private Node<E> tail = null;
     private int size = 0;
 
-    public SinglyLinkedList(){
-
+    public SinglyLinkedList() {
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return size == 0;
     }
 
-    public E first(){
-        if (isEmpty()){
+    public E first() {
+        if (isEmpty()) {
             return null;
-        } 
+        }
         return head.getElement();
     }
 
-    public E last(){
-        if (isEmpty()){
+    public E last() {
+        if (isEmpty()) {
             return null;
         }
         return tail.getElement();
     }
 
-    public void addFirst(E e){
+    public void addFirst(E e) {
         head = new Node<>(e, head);
-
-        if (isEmpty()){
+        if (isEmpty()) {
             tail = head;
         }
         size++;
     }
 
-    public void addLast(E e){
+    public void addLast(E e) {
         Node<E> newest = new Node<>(e, null);
-        if (isEmpty()){
+        if (isEmpty()) {
             head = newest;
         } else {
             tail.setNext(newest);
@@ -50,71 +70,65 @@ public class SinglyLinkedList<E> {
         size++;
     }
 
-    public E removeFirst(){
-        if (isEmpty()){
+    public E removeFirst() {
+        if (isEmpty()) {
             return null;
         }
-
         E answer = head.getElement();
         head = head.getNext();
         size--;
-
-        if (isEmpty()){
+        if (size == 0) {
             tail = null;
         }
         return answer;
     }
 
-    // Write your codes below
-    public String toString() {
-        String sllStr = "";
-        if (isEmpty()) {
-            return sllStr;
-        }
-        for (Node<E> current = head; current != null; current = current.getNext()) {
-            sllStr += current.getElement();
-        }
-        return sllStr;
-    }
+    // Write your methods here
 
-    public E removeLast(){
-        if (isEmpty()){
+    public E removeLast() {
+        if (isEmpty()) {
             return null;
         }
-
-        Node<E> last = tail;
-        
-        if (head == tail){
+        E answer = tail.getElement();
+        if (size == 1) {
             head = null;
             tail = null;
-            size--;
-            return last.getElement();
+        } else {
+            Node<E> walk = head;
+            while (walk.getNext() != tail) {
+                walk = walk.getNext();
+            }
+            walk.setNext(null);
+            tail = walk;
         }
-
-        Node<E> current = head;
-        while (current.getNext() != tail){
-            current = current.getNext();
-        }
-        current.setNext(null);
-        tail = current;
         size--;
-        return last.getElement();
+        return answer;
     }
 
-	
-	
     public void reverse() {
-        Node<E> previous = null; 
-        Node<E> current = head; 
-        Node<E> next = null; 
-        
-        tail = head; 
+        Node<E> prev = null;
+        Node<E> current = head;
+        tail = head;
         while (current != null) {
-			next = current.getNext(); 
-			current.setNext(previous); 
-			previous = current; 
-			current = next; 
+            Node<E> next = current.getNext();
+            current.setNext(prev);
+            prev = current;
+            current = next;
         }
-        head = previous; 
+        head = prev;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node<E> walk = head;
+		if (isEmpty()) {
+			return ""
+		}
+        while (walk != null) {
+            sb.append(walk.getElement());
+            walk = walk.getNext();
+        }
+        return sb.toString();
     }
 }
