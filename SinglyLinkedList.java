@@ -1,45 +1,47 @@
 public class SinglyLinkedList<E> {
-
+    
     private Node<E> head = null;
     private Node<E> tail = null;
     private int size = 0;
 
-    public SinglyLinkedList() {
+    public SinglyLinkedList(){
+
     }
 
-    public int size() {
+    public int size(){
         return size;
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty(){
         return size == 0;
     }
 
-    public E first() {
-        if (isEmpty()) {
+    public E first(){
+        if (isEmpty()){
             return null;
-        }
+        } 
         return head.getElement();
     }
 
-    public E last() {
-        if (isEmpty()) {
+    public E last(){
+        if (isEmpty()){
             return null;
         }
         return tail.getElement();
     }
 
-    public void addFirst(E e) {
+    public void addFirst(E e){
         head = new Node<>(e, head);
-        if (isEmpty()) {
+
+        if (isEmpty()){
             tail = head;
         }
         size++;
     }
 
-    public void addLast(E e) {
+    public void addLast(E e){
         Node<E> newest = new Node<>(e, null);
-        if (isEmpty()) {
+        if (isEmpty()){
             head = newest;
         } else {
             tail.setNext(newest);
@@ -48,66 +50,71 @@ public class SinglyLinkedList<E> {
         size++;
     }
 
-    public E removeFirst() {
-        if (isEmpty()) {
+    public E removeFirst(){
+        if (isEmpty()){
             return null;
         }
+
         E answer = head.getElement();
         head = head.getNext();
         size--;
-        if (size == 0) {
+
+        if (isEmpty()){
             tail = null;
         }
         return answer;
     }
 
-    // Write your methods here
-
-    public E removeLast() {
+    // Write your codes below
+    public String toString() {
+        String sllStr = "";
         if (isEmpty()) {
+            return sllStr;
+        }
+        for (Node<E> current = head; current != null; current = current.getNext()) {
+            sllStr += current.getElement();
+        }
+        return sllStr;
+    }
+
+    public E removeLast(){
+        if (isEmpty()){
             return null;
         }
-        E answer = tail.getElement();
-        if (size == 1) {
+
+        Node<E> last = tail;
+        
+        if (head == tail){
             head = null;
             tail = null;
-        } else {
-            Node<E> walk = head;
-            while (walk.getNext() != tail) {
-                walk = walk.getNext();
-            }
-            walk.setNext(null);
-            tail = walk;
+            size--;
+            return last.getElement();
         }
-        size--;
-        return answer;
-    }
 
-    public void reverse() {
-        Node<E> prev = null;
         Node<E> current = head;
-        tail = head;
-		Node<E> next  = null;
-        while (current != null) {
-            next = current.getNext();
-            current.setNext(prev);
-            prev = current;
-            current = next;
+        while (current.getNext() != tail){
+            current = current.getNext();
         }
-        head = prev;
+        current.setNext(null);
+        tail = current;
+        size--;
+        return last.getElement();
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Node<E> walk = head;
-		if (isEmpty()) {
-			return ""
-		}
-        while (walk != null) {
-            sb.append(walk.getElement());
-            walk = walk.getNext();
+	
+	
+    public void reverse() {
+        Node<E> previous = null; 
+        Node<E> current = head; 
+        Node<E> next = null; 
+        
+        tail = head; 
+        while (current != null) {
+			next = current.getNext(); 
+			current.setNext(previous); 
+			previous = current; 
+			current = next; 
         }
-        return sb.toString();
+        head = previous; 
     }
 }
